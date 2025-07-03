@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Colmi R02 API Documentation</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #121212;
+            color: #e0e0e0;
+            margin: 0;
+            padding: 2em;
+        }
+        h1, h2, h3, h4 {
+            color: #ffffff;
+            font-weight: 300;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 2em;
+        }
+        .container {
+            max-width: 960px;
+            margin: 0 auto;
+        }
+        .endpoint {
+            background-color: #1e1e1e;
+            border: 1px solid #333;
+            border-radius: 8px;
+            padding: 1.5em;
+            margin-bottom: 2em;
+        }
+        .method {
+            font-weight: bold;
+            color: #61afef;
+        }
+        .path {
+            font-family: "Courier New", Courier, monospace;
+            background-color: #2a2a2a;
+            padding: 0.2em 0.4em;
+            border-radius: 4px;
+        }
+        pre {
+            background-color: #2a2a2a;
+            padding: 1em;
+            border-radius: 5px;
+            border: 1px solid #444;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Colmi R02 API Documentation</h1>
+
+        <div class="endpoint">
+            <h2><span class="method">GET</span> <span class="path">/scan</span></h2>
+            <p>Scan for available Bluetooth devices.</p>
+            <h4>Headers</h4>
+            <p><code>X-API-Key</code>: Your API key.</p>
+            <h4>Response</h4>
+            <pre><code>[
+    {
+        "name": "R02",
+        "address": "XX:XX:XX:XX:XX:XX"
+    }
+]</code></pre>
+            <h4>cURL Example</h4>
+            <pre><code>curl -X GET "http://0.0.0.0:5004/scan" -H "X-API-Key: your-api-key"</code></pre>
+        </div>
+
+        <div class="endpoint">
+            <h2><span class="method">GET</span> <span class="path">/{address}/info</span></h2>
+            <p>Get device information and battery level.</p>
+            <h4>Headers</h4>
+            <p><code>X-API-Key</code>: Your API key.</p>
+            <h4>Path Parameters</h4>
+            <p><code>address</code>: The Bluetooth address of the device.</p>
+            <h4>Response</h4>
+            <pre><code>{
+    "device_info": {
+        "hw_version": "RY03CR_V1.0",
+        "fw_version": "RY03CR_1.00.06_241212"
+    },
+    "battery": {
+        "battery_level": 99,
+        "charging": false
+    }
+}</code></pre>
+            <h4>cURL Example</h4>
+            <pre><code>curl -X GET "http://0.0.0.0:5004/XX:XX:XX:XX:XX:XX/info" -H "X-API-Key: your-api-key"</code></pre>
+        </div>
+
+        <div class="endpoint">
+            <h2><span class="method">GET</span> <span class="path">/{address}/heart_rate_log</span></h2>
+            <p>Get the heart rate log for a specific date.</p>
+            <h4>Headers</h4>
+            <p><code>X-API-Key</code>: Your API key.</p>
+            <h4>Path Parameters</h4>
+            <p><code>address</code>: The Bluetooth address of the device.</p>
+            <h4>Query Parameters</h4>
+            <p><code>target_date</code> (optional): The date in <code>YYYY-MM-DD</code> format. Defaults to the current date.</p>
+            <h4>Response</h4>
+            <pre><code>{
+    "raw": { ... },
+    "chart_data": [ ... ]
+}</code></pre>
+            <h4>cURL Example</h4>
+            <pre><code>curl -X GET "http://0.0.0.0:5004/XX:XX:XX:XX:XX:XX/heart_rate_log?target_date=2025-07-03" -H "X-API-Key: your-api-key"</code></pre>
+        </div>
+
+        <div class="endpoint">
+            <h2><span class="method">POST</span> <span class="path">/{address}/time</span></h2>
+            <p>Set the time on the device.</p>
+            <h4>Headers</h4>
+            <p><code>X-API-Key</code>: Your API key.</p>
+            <h4>Path Parameters</h4>
+            <p><code>address</code>: The Bluetooth address of the device.</p>
+            <h4>Query Parameters</h4>
+            <p><code>time</code> (optional): The time in ISO 8601 format (e.g., <code>2025-07-03T12:00:00</code>). Defaults to the current time.</p>
+            <h4>Response</h4>
+            <pre><code>{
+    "status": "Time set successfully"
+}</code></pre>
+            <h4>cURL Example</h4>
+            <pre><code>curl -X POST "http://0.0.0.0:5004/XX:XX:XX:XX:XX:XX/time?time=2025-07-03T12:00:00" -H "X-API-Key: your-api-key"</code></pre>
+        </div>
+
+        <div class="endpoint">
+            <h2><span class="method">GET</span> <span class="path">/{address}/heart_rate_log_settings</span></h2>
+            <p>Get the heart rate log settings.</p>
+            <h4>Headers</h4>
+            <p><code>X-API-Key</code>: Your API key.</p>
+            <h4>Path Parameters</h4>
+            <p><code>address</code>: The Bluetooth address of the device.</p>
+            <h4>Response</h4>
+            <pre><code>{
+    "enabled": true,
+    "interval": 10
+}</code></pre>
+            <h4>cURL Example</h4>
+            <pre><code>curl -X GET "http://0.0.0.0:5004/XX:XX:XX:XX:XX:XX/heart_rate_log_settings" -H "X-API-Key: your-api-key"</code></pre>
+        </div>
+
+        <div class="endpoint">
+            <h2><span class="method">POST</span> <span class="path">/{address}/heart_rate_log_settings</span></h2>
+            <p>Set the heart rate log settings.</p>
+            <h4>Headers</h4>
+            <p><code>X-API-Key</code>: Your API key.</p>
+            <h4>Path Parameters</h4>
+            <p><code>address</code>: The Bluetooth address of the device.</p>
+            <h4>Query Parameters</h4>
+            <p><code>enable</code>: <code>true</code> or <code>false</code>.</p>
+            <p><code>interval</code> (optional): The interval in minutes. Defaults to 60.</p>
+            <h4>Response</h4>
+            <pre><code>{
+    "status": "Heart rate log settings updated"
+}</code></pre>
+            <h4>cURL Example</h4>
+            <pre><code>curl -X POST "http://0.0.0.0:5004/XX:XX:XX:XX:XX:XX/heart_rate_log_settings?enable=true&interval=30" -H "X-API-Key: your-api-key"</code></pre>
+        </div>
+
+        <div class="endpoint">
+            <h2><span class="method">GET</span> <span class="path">/{address}/real_time_reading</span></h2>
+            <p>Get a real-time reading from the device.</p>
+            <h4>Headers</h4>
+            <p><code>X-API-Key</code>: Your API key.</p>
+            <h4>Path Parameters</h4>
+            <p><code>address</code>: The Bluetooth address of the device.</p>
+            <h4>Query Parameters</h4>
+            <p><code>reading</code>: The type of reading. Can be <code>heart-rate</code>, <code>spo2</code>, or <code>blood-pressure</code>.</p>
+            <h4>Response</h4>
+            <pre><code>{
+    "reading": [ ... ]
+}</code></pre>
+            <h4>cURL Example</h4>
+            <pre><code>curl -X GET "http://0.0.0.0:5004/XX:XX:XX:XX:XX:XX/real_time_reading?reading=heart-rate" -H "X-API-Key: your-api-key"</code></pre>
+        </div>
+
+        <div class="endpoint">
+            <h2><span class="method">GET</span> <span class="path">/{address}/steps</span></h2>
+            <p>Get the step count for a specific date.</p>
+            <h4>Headers</h4>
+            <p><code>X-API-Key</code>: Your API key.</p>
+            <h4>Path Parameters</h4>
+            <p><code>address</code>: The Bluetooth address of the device.</p>
+            <h4>Query Parameters</h4>
+            <p><code>when</code> (optional): The date in <code>YYYY-MM-DD</code> format. Defaults to the current date.</p>
+            <h4>Response</h4>
+            <pre><code>[
+    {
+        "year": 2025,
+        "month": 7,
+        "day": 3,
+        "time_index": 24,
+        "calories": 1470,
+        "steps": 15,
+        "distance": 12
+    },
+    ...
+]</code></pre>
+            <h4>cURL Example</h4>
+            <pre><code>curl -X GET "http://0.0.0.0:5004/XX:XX:XX:XX:XX:XX/steps?when=2025-07-03" -H "X-API-Key: your-api-key"</code></pre>
+        </div>
+
+        <div class="endpoint">
+            <h2><span class="method">POST</span> <span class="path">/{address}/reboot</span></h2>
+            <p>Reboot the device.</p>
+            <h4>Headers</h4>
+            <p><code>X-API-Key</code>: Your API key.</p>
+            <h4>Path Parameters</h4>
+            <p><code>address</code>: The Bluetooth address of the device.</p>
+            <h4>Response</h4>
+            <pre><code>{
+    "status": "Ring rebooted"
+}</code></pre>
+            <h4>cURL Example</h4>
+            <pre><code>curl -X POST "http://0.0.0.0:5004/XX:XX:XX:XX:XX:XX/reboot" -H "X-API-Key: your-api-key"</code></pre>
+        </div>
+    </div>
+</body>
+</html>

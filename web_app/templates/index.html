@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Colmi R02 Client</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <h1>Colmi R02 Smart Ring Client</h1>
+
+    <div class="container">
+        <div class="section">
+            <h2>Configuration</h2>
+            <div>
+                <label for="api-key">API Key:</label>
+                <input type="password" id="api-key" placeholder="Enter API key from .env file">
+                <button id="show-api-key-btn">Show</button>
+                <span id="api-status"></span>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Scan for Devices</h2>
+            <button id="scan-btn">Scan</button>
+            <select id="device-select"></select>
+        </div>
+
+        <div id="device-controls" class="hidden">
+            <h2 id="selected-device"></h2>
+
+            <div class="section">
+                <h3>Device Info</h3>
+                <button id="info-btn">Get Info</button>
+                <div id="info-display"></div>
+                <pre id="info-output"></pre>
+            </div>
+
+            <div class="section">
+                <h3>Heart Rate Log</h3>
+                <input type="date" id="hr-date">
+                <button id="hr-log-btn">Get Log</button>
+                <canvas id="hr-chart"></canvas>
+                <pre id="hr-log-output"></pre>
+            </div>
+
+            <div class="section">
+                <h3>Set Time</h3>
+                <input type="datetime-local" id="set-time-input">
+                <button id="set-time-btn">Set Time</button>
+            </div>
+
+            <div class="section">
+                <h3>Heart Rate Log Settings</h3>
+                <button id="get-hr-settings-btn">Get Settings</button>
+                <div id="hr-settings-display"></div>
+                <pre id="get-hr-settings-output"></pre>
+                <br>
+                <label for="hr-enable">Enable:</label>
+                <input type="checkbox" id="hr-enable">
+                <label for="hr-interval">Interval (minutes):</label>
+                <input type="number" id="hr-interval" value="60">
+                <button id="set-hr-settings-btn">Set Settings</button>
+            </div>
+
+            <div class="section">
+                <h3>Real-time Reading</h3>
+                <select id="reading-type">
+                    <option value="heart-rate">Heart Rate</option>
+                    <option value="spo2">SPO2</option>
+                    <option value="blood-pressure">Blood Pressure</option>
+                </select>
+                <button id="real-time-btn">Get Reading</button>
+                <div id="real-time-display"></div>
+                <pre id="real-time-output"></pre>
+            </div>
+
+            <div class="section">
+                <h3>Steps</h3>
+                <input type="date" id="steps-date">
+                <button id="steps-btn">Get Steps</button>
+                <div id="steps-summary"></div>
+                <canvas id="steps-chart"></canvas>
+                <pre id="steps-output"></pre>
+            </div>
+
+            <div class="section">
+                <h3>Reboot</h3>
+                <button id="reboot-btn">Reboot Device</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/script.js"></script>
+</body>
+</html>
